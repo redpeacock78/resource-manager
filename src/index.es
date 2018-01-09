@@ -76,7 +76,7 @@ export default class ResourceManager
 	 * @return {*}
 	 * @throws {Error}
 	 */
-	openSingle(name, options = null)
+	openSingleton(name, options = null)
 	{
 		const key = JSON.stringify([name, options]);
 
