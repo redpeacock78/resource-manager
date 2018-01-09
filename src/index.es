@@ -1,7 +1,7 @@
 /**
  * Resource Manager
  */
-export class ResourceManager
+export default class ResourceManager
 {
 	/**
 	 * factory method
