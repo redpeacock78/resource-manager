@@ -19,7 +19,7 @@ JavaScriptのクラスにはデストラクタがないので、メモリ以外�
 
 ## インストール
 ```bash
-npm install -S resourcemanager
+npm install -S @shimataro/resource-manager
 ```
 
 ## 使い方（Express.jsの例）

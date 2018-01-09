@@ -20,7 +20,7 @@ In addition, reusing DB connection might be better for transaction.
 
 ## How to install
 ```bash
-npm install -S resourcemanager
+npm install -S @shimataro/resource-manager
 ```
 
 ## Usage (for Express.js)
