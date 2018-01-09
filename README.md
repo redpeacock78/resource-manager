@@ -68,10 +68,10 @@ app.get("/", (req, res, next) => {
     // connect to DB
     const conn1 = req.objResourceManager.open("mysql", {/* options 1 */});
 
-    // openSingle() returns single resource when name and options are same.
+    // openSingleton() returns single resource when name and options are same.
     // (in this case, conn2_1 and conn2_2 indicate same object)
-    const conn2_1 = req.objResourceManager.openSingle("mysql", {/* options 2 */});
-    const conn2_2 = req.objResourceManager.openSingle("mysql", {/* options 2 */});
+    const conn2_1 = req.objResourceManager.openSingleton("mysql", {/* options 2 */});
+    const conn2_2 = req.objResourceManager.openSingleton("mysql", {/* options 2 */});
 
     // all resources will be closed at the end of request
     res.send("OK");

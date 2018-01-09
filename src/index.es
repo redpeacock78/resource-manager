@@ -1,7 +1,7 @@
 /**
  * Resource Manager
  */
-export class ResourceManager
+export default class ResourceManager
 {
 	/**
 	 * factory method
@@ -76,7 +76,7 @@ export class ResourceManager
 	 * @return {*}
 	 * @throws {Error}
 	 */
-	openSingle(name, options = null)
+	openSingleton(name, options = null)
 	{
 		const key = JSON.stringify([name, options]);
 

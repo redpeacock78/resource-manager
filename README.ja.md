@@ -67,10 +67,10 @@ app.get("/", (req, res, next) => {
     // DB接続
     const conn1 = req.objResourceManager.open("mysql", {/* 接続オプション1 */});
 
-    // openSingle() は同じリソース名・同じオプションなら何度コールしても最初のリソースを使いまわす
+    // openSingleton() は同じリソース名・同じオプションなら何度コールしても最初のリソースを使いまわす
     // （この場合、conn2_1とconn2_2は同じものを返す）
-    const conn2_1 = req.objResourceManager.openSingle("mysql", {/* 接続オプション2 */});
-    const conn2_2 = req.objResourceManager.openSingle("mysql", {/* 接続オプション2 */});
+    const conn2_1 = req.objResourceManager.openSingleton("mysql", {/* 接続オプション2 */});
+    const conn2_2 = req.objResourceManager.openSingleton("mysql", {/* 接続オプション2 */});
 
     // リクエスト終了時にすべて解放される
     res.send("OK");
