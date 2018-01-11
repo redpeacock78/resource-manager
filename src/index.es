@@ -4,6 +4,13 @@
 export default class ResourceManager
 {
 	/**
+	 * @typedef {*} TypeResource
+	 * @typedef {*} TypeResourceOptions
+	 * @typedef {function(TypeResourceOptions):TypeResource} TypeResourceOpenFunction
+	 * @typedef {function(TypeResource):void} TypeResourceCloseFunction
+	 * @typedef {function(void):void} TypeResourceCloseWrapperFunction
+	 */
+	/**
 	 * factory method
 	 * @return {ResourceManager}
 	 */
@@ -17,17 +24,21 @@ export default class ResourceManager
 	 */
 	constructor()
 	{
+		/** @type {Map<string, {open: TypeResourceOpenFunction, close: TypeResourceCloseFunction}>} */
 		this._resourceFunctionsMap = new Map();
+		/** @type {Map<string, TypeResource>} */
 		this._resourceSingletonMap = new Map();
+		/** @type {TypeResourceCloseWrapperFunction[]} */
 		this._closeCallbacks = [];
+		/** @type {boolean} */
 		this._closed = false;
 	}
 
 	/**
 	 * register resource
 	 * @param {string} name
-	 * @param {function(*):*} open
-	 * @param {function(*):void} close
+	 * @param {TypeResourceOpenFunction} open
+	 * @param {TypeResourceCloseFunction} close
 	 * @return {ResourceManager}
 	 */
 	register(name, open, close)
@@ -42,8 +53,8 @@ export default class ResourceManager
 	/**
 	 * open a resource
 	 * @param {string} name
-	 * @param {?*} options
-	 * @return {*}
+	 * @param {?TypeResourceOptions} options
+	 * @return {TypeResource}
 	 * @throws {Error}
 	 */
 	open(name, options = null)
@@ -71,8 +82,8 @@ export default class ResourceManager
 	/**
 	 * open a resource; singleton
 	 * @param {string} name
-	 * @param {?*} options
-	 * @return {*}
+	 * @param {?TypeResourceOptions} options
+	 * @return {TypeResource}
 	 * @throws {Error}
 	 */
 	openSingleton(name, options = null)
