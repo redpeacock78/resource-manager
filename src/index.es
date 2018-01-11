@@ -17,8 +17,8 @@ export default class ResourceManager
 	 */
 	constructor()
 	{
-		this._resourceFunctionsMap = {};
-		this._resourceSingletonMap = {};
+		this._resourceFunctionsMap = new Map();
+		this._resourceSingletonMap = new Map();
 		this._closeCallbacks = [];
 		this._closed = false;
 	}
@@ -32,10 +32,10 @@ export default class ResourceManager
 	 */
 	register(name, open, close)
 	{
-		this._resourceFunctionsMap[name] = {
+		this._resourceFunctionsMap.set(name, {
 			open: open,
 			close: close,
-		};
+		});
 		return this;
 	}
 
@@ -48,8 +48,8 @@ export default class ResourceManager
 	 */
 	open(name, options = null)
 	{
-		const resourceFunctionsMap = this._resourceFunctionsMap;
-		if(!resourceFunctionsMap.hasOwnProperty(name))
+		const resourceFunctions = this._resourceFunctionsMap.get(name);
+		if(resourceFunctions === undefined)
 		{
 			throw new Error(`ResourceManager: resource name "${name}" is unregistered`);
 		}
@@ -59,7 +59,6 @@ export default class ResourceManager
 			throw new Error(`ResourceManager: resources are already closed`);
 		}
 
-		const resourceFunctions = resourceFunctionsMap[name];
 		const resource = resourceFunctions.open(options);
 
 		this._closeCallbacks.push(() =>
@@ -80,12 +79,15 @@ export default class ResourceManager
 	{
 		const key = JSON.stringify([name, options]);
 
-		const resourceSingletonMap = this._resourceSingletonMap;
-		if(!resourceSingletonMap.hasOwnProperty(key))
+		const objResource = this._resourceSingletonMap.get(key);
+		if(objResource !== undefined)
 		{
-			resourceSingletonMap[key] = this.open(name, options);
+			return objResource;
 		}
-		return resourceSingletonMap[key];
+
+		const objResourceNew = this.open(name, options);
+		this._resourceSingletonMap.set(key, objResourceNew);
+		return objResourceNew;
 	}
 
 	/**
@@ -101,7 +103,7 @@ export default class ResourceManager
 			callback();
 		}
 
-		this._resourceSingletonMap = {};
+		this._resourceSingletonMap.clear();
 		this._closed = true;
 	}
 }
