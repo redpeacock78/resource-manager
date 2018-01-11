@@ -7,8 +7,8 @@ export default class ResourceManager
 	 * @typedef {*} TypeResource
 	 * @typedef {*} TypeResourceOptions
 	 * @typedef {function(TypeResourceOptions):TypeResource} TypeResourceOpenFunction
-	 * @typedef {function(TypeResource):void} TypeResourceCloseFunction
-	 * @typedef {function(void):void} TypeResourceCloseWrapperFunction
+	 * @typedef {function(TypeResource)} TypeResourceCloseFunction
+	 * @typedef {function()} TypeResourceCloseWrapperFunction
 	 */
 	/**
 	 * factory method
