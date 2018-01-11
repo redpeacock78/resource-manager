@@ -61,6 +61,35 @@ function middleware(req, res, next) {
 }
 ```
 
+[on-finished](https://www.npmjs.com/package/on-finished)パッケージを使うと簡潔に記述できる
+```javascript
+import ResourceManager from "@shimataro/resource-manager";
+import onFinished from "on-finished";
+
+function middleware(req, res, next) {
+    // リソースマネージャーをreqのプロパティに追加
+    const objResourceManager = ResourceManager.factory();
+    req.objResourceManager = objResourceManager;
+
+    // リソース名・取得方法・解放方法を指定
+    objResourceManager.register(
+        "mysql",
+        (options) => {
+            return mysql.createConnection(options);
+        },
+        (conn) => {
+            conn.end();
+        });
+
+    // 終了時にリソースをすべて解放
+    onFinished(res, () => {
+        objResourceManager.close();
+    });
+
+    next();
+}
+```
+
 リソースの取得方法はこんな感じで。
 ```javascript
 app.get("/", (req, res, next) => {

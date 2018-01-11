@@ -62,6 +62,35 @@ function middleware(req, res, next) {
 }
 ```
 
+You can make above code brief using [on-finished](https://www.npmjs.com/package/on-finished):
+```javascript
+import ResourceManager from "@shimataro/resource-manager";
+import onFinished from "on-finished";
+
+function middleware(req, res, next) {
+    // add resource manager to req
+    const objResourceManager = ResourceManager.factory();
+    req.objResourceManager = objResourceManager;
+
+    // specify the resource name, how to open/close
+    objResourceManager.register(
+        "mysql",
+        (options) => {
+            return mysql.createConnection(options);
+        },
+        (conn) => {
+            conn.end();
+        });
+
+    // close all resources at exit
+    onFinished(res, () => {
+        objResourceManager.close();
+    });
+
+    next();
+}
+```
+
 Open resources like this.
 ```javascript
 app.get("/", (req, res, next) => {
