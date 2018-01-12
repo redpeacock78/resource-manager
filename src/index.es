@@ -16,7 +16,37 @@ export default class ResourceManager
 	 */
 	static factory()
 	{
-		return new ResourceManager();
+		const objResourceManager = new ResourceManager();
+
+		// built-in resources
+		return objResourceManager
+			.register(
+				"array",
+				() => {
+					return new Array();
+				},
+				(array) => {
+					array.splice(0, array.length);
+				}
+			)
+			.register(
+				"map",
+				() => {
+					return new Map();
+				},
+				(map) => {
+					map.clear();
+				}
+			)
+			.register(
+				"set",
+				() => {
+					return new Set();
+				},
+				(set) => {
+					set.clear();
+				}
+			);
 	}
 
 	/**
@@ -59,23 +89,23 @@ export default class ResourceManager
 	 */
 	open(name, options = null)
 	{
+		if(this._closed)
+		{
+			throw new Error(`ResourceManager: resources are already closed`);
+		}
+
 		const resourceFunctions = this._resourceFunctionsMap.get(name);
 		if(resourceFunctions === undefined)
 		{
 			throw new Error(`ResourceManager: resource name "${name}" is unregistered`);
 		}
 
-		if(this._closed)
-		{
-			throw new Error(`ResourceManager: resources are already closed`);
-		}
-
 		const resource = resourceFunctions.open(options);
-
 		this._closeCallbacks.push(() =>
 		{
 			resourceFunctions.close(resource);
 		});
+
 		return resource;
 	}
 
@@ -89,7 +119,6 @@ export default class ResourceManager
 	openSingleton(name, options = null)
 	{
 		const key = JSON.stringify([name, options]);
-
 		const objResource = this._resourceSingletonMap.get(key);
 		if(objResource !== undefined)
 		{
@@ -98,6 +127,7 @@ export default class ResourceManager
 
 		const objResourceNew = this.open(name, options);
 		this._resourceSingletonMap.set(key, objResourceNew);
+
 		return objResourceNew;
 	}
 
