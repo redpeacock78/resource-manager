@@ -23,7 +23,7 @@ npm install -S @shimataro/resource-manager
 ```
 
 ## 使い方（Express.jsの例）
-こんな感じのミドルウェアを、ルーティング前（リソース使用前）に `app.use()` で登録しておく
+こんな感じのミドルウェアを、ルーティング前（リソース使用前）に `app.use()` で登録しておきます。
 ```javascript
 import ResourceManager from "@shimataro/resource-manager";
 
@@ -61,25 +61,13 @@ function middleware(req, res, next) {
 }
 ```
 
-[on-finished](https://www.npmjs.com/package/on-finished)パッケージを使うと簡潔に記述できる
+[on-finished](https://www.npmjs.com/package/on-finished)パッケージを使うと、リソースの解放部分を簡潔に記述できます。
 ```javascript
 import ResourceManager from "@shimataro/resource-manager";
 import onFinished from "on-finished";
 
 function middleware(req, res, next) {
-    // リソースマネージャーをreqのプロパティに追加
-    const objResourceManager = ResourceManager.factory();
-    req.objResourceManager = objResourceManager;
-
-    // リソース名・取得方法・解放方法を指定
-    objResourceManager.register(
-        "mysql",
-        (options) => {
-            return mysql.createConnection(options);
-        },
-        (conn) => {
-            conn.end();
-        });
+    // ...
 
     // 終了時にリソースをすべて解放
     onFinished(res, () => {
