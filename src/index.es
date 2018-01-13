@@ -10,6 +10,7 @@ export default class ResourceManager
 	 * @typedef {function(TypeResource)} TypeResourceCloseFunction
 	 * @typedef {function()} TypeResourceCloseWrapperFunction
 	 */
+
 	/**
 	 * factory method
 	 * @return {ResourceManager}
@@ -22,28 +23,34 @@ export default class ResourceManager
 		return objResourceManager
 			.register(
 				"array",
-				() => {
+				() =>
+				{
 					return new Array();
 				},
-				(array) => {
+				(array) =>
+				{
 					array.splice(0, array.length);
 				}
 			)
 			.register(
 				"map",
-				() => {
+				() =>
+				{
 					return new Map();
 				},
-				(map) => {
+				(map) =>
+				{
 					map.clear();
 				}
 			)
 			.register(
 				"set",
-				() => {
+				() =>
+				{
 					return new Set();
 				},
-				(set) => {
+				(set) =>
+				{
 					set.clear();
 				}
 			);
@@ -144,6 +151,7 @@ export default class ResourceManager
 			callback();
 		}
 
+		this._resourceFunctionsMap.clear();
 		this._resourceSingletonMap.clear();
 		this._closed = true;
 	}
