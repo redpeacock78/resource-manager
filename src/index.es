@@ -25,7 +25,7 @@ export default class ResourceManager
 				"array",
 				() =>
 				{
-					return new Array();
+					return [];
 				},
 				(array) =>
 				{
