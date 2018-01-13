@@ -106,6 +106,41 @@ app.get("/", (req, res, next) => {
 });
 ```
 
+## ビルトインリソース
+以下のリソース名は「ビルトインリソース」としてあらかじめ定義されているため、登録なしで使用できます。
+* `array`: [配列](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)
+* `map`: [マップ](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map)
+* `set`: [集合](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)
+
+これらのリソースも `close()` メソッドをコールすれば中身は解放されるので、その時点でMapやSetのキーもガベージコレクションの対象となります。
+つまり、[WeakMap](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WeakMap)や[WeakSet](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WeakSet)を使用する必要はありません。
+
+また、 `openSingleton()` をコールすることで「リクエスト内でローカルなコレクション」として使うこともできます。
+```javascript
+function middleware1(req, res, next) {
+    const map1 = req.objResourceManager.openSingleton("map", 1);
+    console.log(map1.size); // 0
+    map1.set(1, "a");
+
+    const map2 = req.objResourceManager.openSingleton("map", 2);
+    console.log(map2.size); // 0
+    map2.set(2, "b");
+
+    next();
+}
+
+function middleware2(req, res, next) {
+    const map1 = req.objResourceManager.openSingleton("map", 1);
+    const map2 = req.objResourceManager.openSingleton("map", 2);
+    console.log(map1.get(1)); // "a"
+    console.log(map1.get(2)); // undefined
+    console.log(map2.get(1)); // undefined
+    console.log(map2.get(2)); // "b"
+
+    next();
+}
+```
+
 ## ライセンス
 MITライセンス
 
