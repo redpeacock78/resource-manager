@@ -1,7 +1,7 @@
 {
   "name": "@shimataro/resource-manager",
   "description": "open any resources and close them at a stretch",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "shimataro",
   "license": "MIT",
   "repository": {
