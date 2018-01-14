@@ -21,65 +21,11 @@ export default class ResourceManager
 	{
 		const objResourceManager = new ResourceManager();
 
-		// built-in resources
+		// register built-in resources
 		return objResourceManager
-			.register(
-				"array",
-				/**
-				 * open
-				 * @return {Array}
-				 */
-				() =>
-				{
-					return [];
-				},
-				/**
-				 * close
-				 * @param {Array} array
-				 */
-				(array) =>
-				{
-					array.splice(0, array.length);
-				}
-			)
-			.register(
-				"map",
-				/**
-				 * open
-				 * @return {Map}
-				 */
-				() =>
-				{
-					return new Map();
-				},
-				/**
-				 * close
-				 * @param {Map} map
-				 */
-				(map) =>
-				{
-					map.clear();
-				}
-			)
-			.register(
-				"set",
-				/**
-				 * open
-				 * @return {Set}
-				 */
-				() =>
-				{
-					return new Set();
-				},
-				/**
-				 * close
-				 * @param {Set} set
-				 */
-				(set) =>
-				{
-					set.clear();
-				}
-			);
+			.register("array", _openArray, _closeArray)
+			.register("map", _openMap, _closeMap)
+			.register("set", _openSet, _closeSet);
 	}
 
 	/**
@@ -181,4 +127,58 @@ export default class ResourceManager
 		this._resourceSingletonMap.clear();
 		this._closed = true;
 	}
+}
+
+/**
+ * open Array resource
+ * @return {Array}
+ */
+function _openArray()
+{
+	return [];
+}
+
+/**
+ * close Array resource
+ * @param {Array} array
+ */
+function _closeArray(array)
+{
+	array.splice(0, array.length);
+}
+
+/**
+ * open Map resource
+ * @return {Map}
+ */
+function _openMap()
+{
+	return new Map();
+}
+
+/**
+ * close Map resource
+ * @param {Map} map
+ */
+function _closeMap(map)
+{
+	map.clear();
+}
+
+/**
+ * open Set resource
+ * @return {Set}
+ */
+function _openSet()
+{
+	return new Set();
+}
+
+/**
+ * close
+ * @param {Set} set
+ */
+function _closeSet(set)
+{
+	set.clear();
 }
