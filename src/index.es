@@ -5,12 +5,12 @@ export default class ResourceManager
 {
 	/**
 	 * internal types
-	 * @typedef {*} ResourceManager_Resource
-	 * @typedef {*} ResourceManager_Options
-	 * @typedef {function(ResourceManager_Options):ResourceManager_Resource} ResourceManager_OpenFunction
-	 * @typedef {function(ResourceManager_Resource)} ResourceManager_CloseFunction
-	 * @typedef {{open: ResourceManager_OpenFunction, close: ResourceManager_CloseFunction}} ResourceManager_Functions
-	 * @typedef {function()} ResourceManager_CloseWrapperFunction
+	 * @typedef {*} Type_ResourceManager_Resource
+	 * @typedef {*} Type_ResourceManager_Options
+	 * @typedef {function(Type_ResourceManager_Options):Type_ResourceManager_Resource} Type_ResourceManager_OpenFunction
+	 * @typedef {function(Type_ResourceManager_Resource)} Type_ResourceManager_CloseFunction
+	 * @typedef {{open: Type_ResourceManager_OpenFunction, close: Type_ResourceManager_CloseFunction}} Type_ResourceManager_OpenCloseFunctions
+	 * @typedef {function()} Type_ResourceManager_CloseWrapperFunction
 	 */
 
 	/**
@@ -87,11 +87,11 @@ export default class ResourceManager
 	 */
 	constructor()
 	{
-		/** @type {Map<string, ResourceManager_Functions>} */
+		/** @type {Map<string, Type_ResourceManager_OpenCloseFunctions>} */
 		this._resourceFunctionsMap = new Map();
-		/** @type {Map<string, ResourceManager_Resource>} */
+		/** @type {Map<string, Type_ResourceManager_Resource>} */
 		this._resourceSingletonMap = new Map();
-		/** @type {ResourceManager_CloseWrapperFunction[]} */
+		/** @type {Type_ResourceManager_CloseWrapperFunction[]} */
 		this._closeCallbacks = [];
 		/** @type {boolean} */
 		this._closed = false;
@@ -100,8 +100,8 @@ export default class ResourceManager
 	/**
 	 * register resource
 	 * @param {string} name
-	 * @param {ResourceManager_OpenFunction} open
-	 * @param {ResourceManager_CloseFunction} close
+	 * @param {Type_ResourceManager_OpenFunction} open
+	 * @param {Type_ResourceManager_CloseFunction} close
 	 * @return {ResourceManager}
 	 */
 	register(name, open, close)
@@ -116,8 +116,8 @@ export default class ResourceManager
 	/**
 	 * open a resource
 	 * @param {string} name
-	 * @param {?ResourceManager_Options} options
-	 * @return {ResourceManager_Resource}
+	 * @param {?Type_ResourceManager_Options} options
+	 * @return {Type_ResourceManager_Resource}
 	 * @throws {Error}
 	 */
 	open(name, options = null)
@@ -145,8 +145,8 @@ export default class ResourceManager
 	/**
 	 * open a resource; singleton
 	 * @param {string} name
-	 * @param {?ResourceManager_Options} options
-	 * @return {ResourceManager_Resource}
+	 * @param {?Type_ResourceManager_Options} options
+	 * @return {Type_ResourceManager_Resource}
 	 * @throws {Error}
 	 */
 	openSingleton(name, options = null)
