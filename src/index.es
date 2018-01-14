@@ -4,11 +4,13 @@
 export default class ResourceManager
 {
 	/**
-	 * @typedef {*} TypeResource
-	 * @typedef {*} TypeResourceOptions
-	 * @typedef {function(TypeResourceOptions):TypeResource} TypeResourceOpenFunction
-	 * @typedef {function(TypeResource)} TypeResourceCloseFunction
-	 * @typedef {function()} TypeResourceCloseWrapperFunction
+	 * internal types
+	 * @typedef {*} ResourceManager_Resource
+	 * @typedef {*} ResourceManager_Options
+	 * @typedef {function(ResourceManager_Options):ResourceManager_Resource} ResourceManager_OpenFunction
+	 * @typedef {function(ResourceManager_Resource)} ResourceManager_CloseFunction
+	 * @typedef {{open: ResourceManager_OpenFunction, close: ResourceManager_CloseFunction}} ResourceManager_Functions
+	 * @typedef {function()} ResourceManager_CloseWrapperFunction
 	 */
 
 	/**
@@ -23,10 +25,18 @@ export default class ResourceManager
 		return objResourceManager
 			.register(
 				"array",
+				/**
+				 * open
+				 * @return {Array}
+				 */
 				() =>
 				{
 					return [];
 				},
+				/**
+				 * close
+				 * @param {Array} array
+				 */
 				(array) =>
 				{
 					array.splice(0, array.length);
@@ -34,10 +44,18 @@ export default class ResourceManager
 			)
 			.register(
 				"map",
+				/**
+				 * open
+				 * @return {Map}
+				 */
 				() =>
 				{
 					return new Map();
 				},
+				/**
+				 * close
+				 * @param {Map} map
+				 */
 				(map) =>
 				{
 					map.clear();
@@ -45,10 +63,18 @@ export default class ResourceManager
 			)
 			.register(
 				"set",
+				/**
+				 * open
+				 * @return {Set}
+				 */
 				() =>
 				{
 					return new Set();
 				},
+				/**
+				 * close
+				 * @param {Set} set
+				 */
 				(set) =>
 				{
 					set.clear();
@@ -61,11 +87,11 @@ export default class ResourceManager
 	 */
 	constructor()
 	{
-		/** @type {Map<string, {open: TypeResourceOpenFunction, close: TypeResourceCloseFunction}>} */
+		/** @type {Map<string, ResourceManager_Functions>} */
 		this._resourceFunctionsMap = new Map();
-		/** @type {Map<string, TypeResource>} */
+		/** @type {Map<string, ResourceManager_Resource>} */
 		this._resourceSingletonMap = new Map();
-		/** @type {TypeResourceCloseWrapperFunction[]} */
+		/** @type {ResourceManager_CloseWrapperFunction[]} */
 		this._closeCallbacks = [];
 		/** @type {boolean} */
 		this._closed = false;
@@ -74,8 +100,8 @@ export default class ResourceManager
 	/**
 	 * register resource
 	 * @param {string} name
-	 * @param {TypeResourceOpenFunction} open
-	 * @param {TypeResourceCloseFunction} close
+	 * @param {ResourceManager_OpenFunction} open
+	 * @param {ResourceManager_CloseFunction} close
 	 * @return {ResourceManager}
 	 */
 	register(name, open, close)
@@ -90,8 +116,8 @@ export default class ResourceManager
 	/**
 	 * open a resource
 	 * @param {string} name
-	 * @param {?TypeResourceOptions} options
-	 * @return {TypeResource}
+	 * @param {?ResourceManager_Options} options
+	 * @return {ResourceManager_Resource}
 	 * @throws {Error}
 	 */
 	open(name, options = null)
@@ -119,8 +145,8 @@ export default class ResourceManager
 	/**
 	 * open a resource; singleton
 	 * @param {string} name
-	 * @param {?TypeResourceOptions} options
-	 * @return {TypeResource}
+	 * @param {?ResourceManager_Options} options
+	 * @return {ResourceManager_Resource}
 	 * @throws {Error}
 	 */
 	openSingleton(name, options = null)
