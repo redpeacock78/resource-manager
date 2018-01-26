@@ -72,13 +72,13 @@ export default class ResourceManager
 	{
 		if(this._closed)
 		{
-			throw new Error(`ResourceManager: resources are already closed`);
+			_raise(`resources are already closed`);
 		}
 
 		const resourceFunctions = this._resourceFunctionsMap.get(name);
 		if(resourceFunctions === undefined)
 		{
-			throw new Error(`ResourceManager: resource name "${name}" is unregistered`);
+			_raise(`resource name "${name}" is unregistered`);
 		}
 
 		const resource = resourceFunctions.open(options);
@@ -129,6 +129,17 @@ export default class ResourceManager
 		this._resourceSingletonMap.clear();
 		this._closed = true;
 	}
+}
+
+/**
+ * throw an Error
+ * @param {string} message
+ * @throws {Error}
+ */
+function _raise(message) {
+	const err = new Error(message);
+	err.name = "ResourceManagerError";
+	throw err;
 }
 
 /**
