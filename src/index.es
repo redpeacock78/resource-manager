@@ -1,14 +1,18 @@
 /**
+ * @typedef {*} TypeResource
+ * @typedef {*} TypeResourceOptions
+ * @typedef {function(TypeResourceOptions):TypeResource} TypeResourceOpener
+ * @typedef {function(TypeResource)} TypeResourceCloser
+ */
+/**
  * Resource Manager
  */
 export default class ResourceManager
 {
 	/**
-	 * @typedef {*} TypeResource
-	 * @typedef {*} TypeResourceOptions
-	 * @typedef {function(TypeResourceOptions):TypeResource} TypeResourceOpenFunction
-	 * @typedef {function(TypeResource)} TypeResourceCloseFunction
-	 * @typedef {function()} TypeResourceCloseWrapperFunction
+	 * internal types
+	 * @typedef {{open: TypeResourceOpener, close: TypeResourceCloser}} _TypeResourceOpenerCloser
+	 * @typedef {function()} _TypeResourceCloserWrapper
 	 */
 
 	/**
@@ -19,41 +23,11 @@ export default class ResourceManager
 	{
 		const objResourceManager = new ResourceManager();
 
-		// built-in resources
+		// register built-in resources
 		return objResourceManager
-			.register(
-				"array",
-				() =>
-				{
-					return new Array();
-				},
-				(array) =>
-				{
-					array.splice(0, array.length);
-				}
-			)
-			.register(
-				"map",
-				() =>
-				{
-					return new Map();
-				},
-				(map) =>
-				{
-					map.clear();
-				}
-			)
-			.register(
-				"set",
-				() =>
-				{
-					return new Set();
-				},
-				(set) =>
-				{
-					set.clear();
-				}
-			);
+			.register("array", _openArray, _closeArray)
+			.register("map", _openMap, _closeMap)
+			.register("set", _openSet, _closeSet);
 	}
 
 	/**
@@ -61,11 +35,11 @@ export default class ResourceManager
 	 */
 	constructor()
 	{
-		/** @type {Map<string, {open: TypeResourceOpenFunction, close: TypeResourceCloseFunction}>} */
+		/** @type {Map<string, _TypeResourceOpenerCloser>} */
 		this._resourceFunctionsMap = new Map();
 		/** @type {Map<string, TypeResource>} */
 		this._resourceSingletonMap = new Map();
-		/** @type {TypeResourceCloseWrapperFunction[]} */
+		/** @type {_TypeResourceCloserWrapper[]} */
 		this._closeCallbacks = [];
 		/** @type {boolean} */
 		this._closed = false;
@@ -74,8 +48,8 @@ export default class ResourceManager
 	/**
 	 * register resource
 	 * @param {string} name
-	 * @param {TypeResourceOpenFunction} open
-	 * @param {TypeResourceCloseFunction} close
+	 * @param {TypeResourceOpener} open
+	 * @param {TypeResourceCloser} close
 	 * @return {ResourceManager}
 	 */
 	register(name, open, close)
@@ -98,13 +72,13 @@ export default class ResourceManager
 	{
 		if(this._closed)
 		{
-			throw new Error(`ResourceManager: resources are already closed`);
+			_raise(`resources are already closed`);
 		}
 
 		const resourceFunctions = this._resourceFunctionsMap.get(name);
 		if(resourceFunctions === undefined)
 		{
-			throw new Error(`ResourceManager: resource name "${name}" is unregistered`);
+			_raise(`resource name "${name}" is unregistered`);
 		}
 
 		const resource = resourceFunctions.open(options);
@@ -155,4 +129,69 @@ export default class ResourceManager
 		this._resourceSingletonMap.clear();
 		this._closed = true;
 	}
+}
+
+/**
+ * throw an Error
+ * @param {string} message
+ * @throws {Error}
+ */
+function _raise(message) {
+	const err = new Error(message);
+	err.name = "ResourceManagerError";
+	throw err;
+}
+
+/**
+ * open Array resource
+ * @return {Array}
+ */
+function _openArray()
+{
+	return [];
+}
+
+/**
+ * close Array resource
+ * @param {Array} array
+ */
+function _closeArray(array)
+{
+	array.splice(0, array.length);
+}
+
+/**
+ * open Map resource
+ * @return {Map}
+ */
+function _openMap()
+{
+	return new Map();
+}
+
+/**
+ * close Map resource
+ * @param {Map} map
+ */
+function _closeMap(map)
+{
+	map.clear();
+}
+
+/**
+ * open Set resource
+ * @return {Set}
+ */
+function _openSet()
+{
+	return new Set();
+}
+
+/**
+ * close
+ * @param {Set} set
+ */
+function _closeSet(set)
+{
+	set.clear();
 }

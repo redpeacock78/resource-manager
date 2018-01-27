@@ -1,7 +1,12 @@
 {
   "name": "@shimataro/resource-manager",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "dependencies": {
+    "ansi-colors": {
+      "version": "1.0.1",
+      "from": "ansi-colors@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/ansi-colors/-/ansi-colors-1.0.1.tgz"
+    },
     "ansi-gray": {
       "version": "0.1.1",
       "from": "ansi-gray@>=0.1.1 <0.2.0",
@@ -368,9 +373,9 @@
       "resolved": "https://registry.npmjs.org/braces/-/braces-2.3.0.tgz"
     },
     "browserslist": {
-      "version": "2.11.1",
+      "version": "2.11.3",
       "from": "browserslist@>=2.1.2 <3.0.0",
-      "resolved": "https://registry.npmjs.org/browserslist/-/browserslist-2.11.1.tgz"
+      "resolved": "https://registry.npmjs.org/browserslist/-/browserslist-2.11.3.tgz"
     },
     "cache-base": {
       "version": "1.0.1",
@@ -378,9 +383,9 @@
       "resolved": "https://registry.npmjs.org/cache-base/-/cache-base-1.0.1.tgz"
     },
     "caniuse-lite": {
-      "version": "1.0.30000791",
-      "from": "caniuse-lite@>=1.0.30000789 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30000791.tgz"
+      "version": "1.0.30000792",
+      "from": "caniuse-lite@>=1.0.30000792 <2.0.0",
+      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30000792.tgz"
     },
     "chalk": {
       "version": "1.1.3",
@@ -528,15 +533,10 @@
       "from": "duplexer2@0.0.2",
       "resolved": "https://registry.npmjs.org/duplexer2/-/duplexer2-0.0.2.tgz"
     },
-    "electron-releases": {
-      "version": "2.1.0",
-      "from": "electron-releases@>=2.1.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/electron-releases/-/electron-releases-2.1.0.tgz"
-    },
     "electron-to-chromium": {
-      "version": "1.3.30",
+      "version": "1.3.31",
       "from": "electron-to-chromium@>=1.3.30 <2.0.0",
-      "resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.30.tgz"
+      "resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.31.tgz"
     },
     "end-of-stream": {
       "version": "0.1.5",
@@ -771,9 +771,9 @@
       }
     },
     "glogg": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "from": "glogg@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/glogg/-/glogg-1.0.0.tgz"
+      "resolved": "https://registry.npmjs.org/glogg/-/glogg-1.0.1.tgz"
     },
     "graceful-fs": {
       "version": "3.0.11",
@@ -798,9 +798,9 @@
       }
     },
     "gulp-babel": {
-      "version": "7.0.0",
+      "version": "7.0.1",
       "from": "gulp-babel@>=7.0.0 <8.0.0",
-      "resolved": "https://registry.npmjs.org/gulp-babel/-/gulp-babel-7.0.0.tgz"
+      "resolved": "https://registry.npmjs.org/gulp-babel/-/gulp-babel-7.0.1.tgz"
     },
     "gulp-util": {
       "version": "3.0.8",
@@ -1318,6 +1318,23 @@
       "from": "path-root-regex@>=0.1.0 <0.2.0",
       "resolved": "https://registry.npmjs.org/path-root-regex/-/path-root-regex-0.1.2.tgz"
     },
+    "plugin-error": {
+      "version": "1.0.1",
+      "from": "plugin-error@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/plugin-error/-/plugin-error-1.0.1.tgz",
+      "dependencies": {
+        "extend-shallow": {
+          "version": "3.0.2",
+          "from": "extend-shallow@>=3.0.2 <4.0.0",
+          "resolved": "https://registry.npmjs.org/extend-shallow/-/extend-shallow-3.0.2.tgz"
+        },
+        "is-extendable": {
+          "version": "1.0.1",
+          "from": "is-extendable@>=1.0.1 <2.0.0",
+          "resolved": "https://registry.npmjs.org/is-extendable/-/is-extendable-1.0.1.tgz"
+        }
+      }
+    },
     "posix-character-classes": {
       "version": "0.1.1",
       "from": "posix-character-classes@>=0.1.0 <0.2.0",
@@ -1431,9 +1448,9 @@
       "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.1.tgz"
     },
     "semver": {
-      "version": "5.4.1",
+      "version": "5.5.0",
       "from": "semver@>=5.3.0 <6.0.0",
-      "resolved": "https://registry.npmjs.org/semver/-/semver-5.4.1.tgz"
+      "resolved": "https://registry.npmjs.org/semver/-/semver-5.5.0.tgz"
     },
     "sequencify": {
       "version": "0.0.7",
