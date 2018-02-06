@@ -136,7 +136,8 @@ export default class ResourceManager
  * @param {string} message
  * @throws {Error}
  */
-function _raise(message) {
+function _raise(message)
+{
 	const err = new Error(message);
 	err.name = "ResourceManagerError";
 	throw err;
