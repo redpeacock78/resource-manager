@@ -6,12 +6,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shimataro/resourcemanager.git"
+    "url": "git+https://github.com/shimataro/resource-manager.git"
   },
   "bugs": {
-    "url": "https://github.com/shimataro/resourcemanager/issues"
+    "url": "https://github.com/shimataro/resource-manager/issues"
   },
-  "homepage": "https://github.com/shimataro/resourcemanager#readme",
+  "homepage": "https://github.com/shimataro/resource-manager#readme",
   "keywords": [
     "resource",
     "resource manager"
