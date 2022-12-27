@@ -22,20 +22,21 @@
   },
   "scripts": {
     "build": "gulp build",
-    "build-js": "gulp build-js",
+    "build-js": "gulp buildJs",
     "watch": "gulp watch",
-    "watch-gulpfile": "gulp watch-gulpfile",
-    "watch-js": "gulp watch-js",
+    "watch-gulpfile": "gulp watchGulpfile",
+    "watch-js": "gulp watchJs",
     "postinstall": "npm run build",
     "check-updates": "ncu"
   },
   "devDependencies": {
-    "npm-check-updates": "^2.13.0"
+    "npm-check-updates": "^16.6.2"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^7.0.0"
+    "gulp": "^4.0.2",
+    "gulp-babel": "^7.0.0",
+    "natives": "^1.1.6"
   }
 }
