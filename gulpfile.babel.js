@@ -1,18 +1,10 @@
 "use strict";
 
-import path from "path";
 import gulp from "gulp";
 import babel from "gulp-babel";
 
-const buildJs = () => {
-  const src = path.resolve("src");
-  const dist = path.resolve("dist");
-
-  return gulp
-    .src(path.join(src, "**", "*.es"))
-    .pipe(babel())
-    .pipe(gulp.dest(dist));
-};
+const buildJs = () =>
+  gulp.src("./src/**/*.es").pipe(babel()).pipe(gulp.dest("./dist/"));
 
 const build = gulp.task("build", buildJs);
 
