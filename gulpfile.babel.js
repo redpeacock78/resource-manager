@@ -4,7 +4,10 @@ import gulp from "gulp";
 import babel from "gulp-babel";
 
 const buildJs = () =>
-  gulp.src("./src/**/*.es").pipe(babel()).pipe(gulp.dest("./dist/"));
+  gulp
+    .src(["./src/**/*.es", "!./node_modules{,/**}", "!./gulpfile.babel.js"])
+    .pipe(babel())
+    .pipe(gulp.dest("./dist/"));
 
 const build = gulp.task("build", buildJs);
 
