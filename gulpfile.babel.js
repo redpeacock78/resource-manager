@@ -4,26 +4,36 @@ import path from "path";
 import gulp from "gulp";
 import babel from "gulp-babel";
 
-gulp.task("build", ["build-js"]);
+const buildJs = () => {
+  const src = path.resolve("src");
+  const dist = path.resolve("dist");
 
-gulp.task("build-js", () =>
-{
-	const src = path.resolve("src");
-	const dist = path.resolve("dist");
+  return gulp
+    .src(path.join(src, "**", "*.es"))
+    .pipe(babel())
+    .pipe(gulp.dest(dist));
+};
 
-	return gulp.src(path.join(src, "**", "*.es"))
-		.pipe(babel())
-		.pipe(gulp.dest(dist));
-});
+const build = gulp.task("build", buildJs);
 
-gulp.task("watch", ["watch-gulpfile", "watch-js"]);
+const watchJs = (done) => {
+  gulp.watch("src/**/*.es", buildJs);
+  done();
+};
 
-gulp.task("watch-gulpfile", () =>
-{
-	return gulp.watch("gulpfile.babel.js", ["build"]);
-});
+const watchGulpfile = (done) => {
+  gulp.watch("gulpfile.babel.js", buildJs);
+  done();
+};
 
-gulp.task("watch-js", () =>
-{
-	return gulp.watch("src/js/**/*.es", ["build-js"]);
-});
+const watch = (done) => {
+  watchJs();
+  watchGulpfile();
+  done();
+};
+
+exports.build = build;
+exports.buildJs = buildJs;
+exports.watch = watch;
+exports.watchJs = watchJs;
+exports.watchGulpfile = watchGulpfile;
